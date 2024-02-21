@@ -1,11 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
-import { UserService } from './service/user.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { User } from './models/user.model';
+import { Destroyable } from './mixins/destroyable.mixin';
+import { AccountService } from './services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -13,28 +9,19 @@ import { User } from './models/user.model';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
-  users: User[] = [];
-  title = 'DAPP';
-
-  constructor(
-    private userService: UserService,
-    private cd: ChangeDetectorRef
-  ) {}
-
-  ngOnInit(): void {
-    this.getUserList();
+export class AppComponent extends Destroyable(Object) implements OnInit {
+  constructor(private accountService: AccountService) {
+    super();
   }
 
-  private getUserList(): void {
-    this.userService.getUsers().subscribe({
-      next: (response) => {
-        this.users = response;
-        console.log(this.users);
-        this.cd.detectChanges();
-      },
-      error: (error) => console.log(error),
-      complete: () => console.log('Completed'),
-    });
+  ngOnInit(): void {
+    this.setCurrentUser();
+  }
+
+  setCurrentUser() {
+    const userString = localStorage.getItem('user');
+    if (!userString) return;
+    const user: User = JSON.parse(userString);
+    this.accountService.setCurrentUser(user);
   }
 }
