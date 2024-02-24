@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { LoginRegister } from 'src/app/models/login-register.model';
 import { AccountService } from 'src/app/services/account.service';
 import { Destroyable } from '../../mixins/destroyable.mixin';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +18,11 @@ export class NavbarComponent extends Destroyable(Object) implements OnInit {
     username: '',
     password: '',
   };
-  constructor(public accountService: AccountService) {
+  constructor(
+    public accountService: AccountService,
+    private router: Router,
+    private toastrService: ToastrService
+  ) {
     super();
   }
 
@@ -24,14 +33,13 @@ export class NavbarComponent extends Destroyable(Object) implements OnInit {
       .login(this.loginData)
       .pipe(this.takeUntilDestroyed())
       .subscribe({
-        next: (response) => {
-          console.log(response);
-        },
-        error: (error) => console.log(error),
+        next: (_) => this.router.navigateByUrl('/members'),
+        error: (error) => this.toastrService.error(error.error),
       });
   }
 
   logout(): void {
     this.accountService.logout();
+    this.router.navigateByUrl('/');
   }
 }
