@@ -32,10 +32,7 @@ export class NavbarComponent extends Destroyable(Object) implements OnInit {
     this.accountService
       .login(this.loginData)
       .pipe(this.takeUntilDestroyed())
-      .subscribe({
-        next: (_) => this.router.navigateByUrl('/members'),
-        error: (error) => this.toastrService.error(error.error),
-      });
+      .subscribe((_) => this.router.navigateByUrl('/members'));
   }
 
   logout(): void {
