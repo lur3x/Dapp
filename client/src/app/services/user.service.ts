@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserData } from '../models/user.model';
+import { Member } from '../models/member.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private url = 'https://localhost:5001/api';
+  private url = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<UserData[]> {
-    return this.http.get<UserData[]>(`${this.url}/users`);
+  getMembers(): Observable<Member[]> {
+    return this.http.get<Member[]>(`${this.url}/users`);
   }
 
-  getUserById(id: number): Observable<UserData> {
-    return this.http.get<UserData>(`${this.url}/users/${id}`);
+  getMember(username: string): Observable<Member> {
+    return this.http.get<Member>(`${this.url}/users/${username}`);
   }
 }
