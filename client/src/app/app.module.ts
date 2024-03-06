@@ -7,8 +7,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './features/home/home.component';
-import { MemberListsComponent } from './features/member-lists/member-lists.component';
-import { MemberDetailsComponent } from './features/member-details/member-details.component';
 import { ListsComponent } from './features/lists/lists.component';
 import { MessagesComponent } from './features/messages/messages.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -21,6 +19,11 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MemberEditComponent } from './features/members/member-edit/member-edit.component';
+import { MemberDetailsComponent } from './features/members/member-details/member-details.component';
+import { MemberListsComponent } from './features/members/member-lists/member-lists.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -35,13 +38,19 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     TestErrorComponent,
     MemberListsComponent,
     MemberDetailsComponent,
+    MemberEditComponent,
     ServerErrorComponent,
     ListsComponent,
     MessagesComponent,
     NotFoundComponent,
     BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
-    ToastrModule.forRoot(),
+    TabsModule,
+    NgxSpinnerModule.forRoot({
+      type: 'cube-transition',
+    }),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
   ],
   providers: [
     {
@@ -52,6 +61,11 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
   ],
