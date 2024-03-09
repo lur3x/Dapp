@@ -39,4 +39,12 @@ export class UserService {
       }),
     );
   }
+
+  setMainPhoto(photoId: number): Observable<ArrayBuffer> {
+    return this.http.put<ArrayBuffer>(`${this.url}/users/set-main-photo/${photoId}`, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(`${this.url}/users/delete-photo/${photoId}`);
+  }
 }
