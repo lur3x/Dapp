@@ -14,8 +14,6 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getMembers(): Observable<Member[]> {
-    if (this.members.length > 0) return of(this.members);
-
     return this.http.get<Member[]>(`${this.url}/users`).pipe(
       map((members) => {
         this.members = members;
