@@ -24,6 +24,9 @@ import { MemberDetailsComponent } from './features/members/member-details/member
 import { MemberListsComponent } from './features/members/member-lists/member-lists.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -51,6 +54,9 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),
+    PaginationModule.forRoot(),
+    ButtonsModule.forRoot(),
+    TimeagoModule.forRoot(),
   ],
   providers: [
     {

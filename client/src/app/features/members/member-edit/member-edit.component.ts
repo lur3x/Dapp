@@ -16,13 +16,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-edit',
   templateUrl: './member-edit.component.html',
   styleUrls: ['./member-edit.component.scss'],
   standalone: true,
-  imports: [CommonModule, TabsModule, FormsModule, PhotoEditorComponent],
+  imports: [CommonModule, TabsModule, FormsModule, PhotoEditorComponent, TimeagoModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MemberEditComponent extends Destroyable(Object) implements OnInit {

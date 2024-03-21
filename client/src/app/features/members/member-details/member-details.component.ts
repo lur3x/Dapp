@@ -1,36 +1,29 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { Destroyable } from 'src/app/mixins/destroyable.mixin';
 import { Member } from 'src/app/models/member.model';
 import { UserService } from 'src/app/services/user.service';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-details',
   standalone: true,
   templateUrl: './member-details.component.html',
   styleUrls: ['./member-details.component.scss'],
-  imports: [CommonModule, TabsModule, GalleryModule],
+  imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MemberDetailsComponent
-  extends Destroyable(Object)
-  implements OnInit
-{
+export class MemberDetailsComponent extends Destroyable(Object) implements OnInit {
   member: Member | undefined;
   images: GalleryItem[] = [];
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     super();
   }
@@ -42,7 +35,7 @@ export class MemberDetailsComponent
   loadMember(): void {
     const username = this.route.snapshot.paramMap.get('username');
     if (!username) return;
-    console.log(username);
+
     this.userService
       .getMember(username)
       .pipe(this.takeUntilDestroyed())
