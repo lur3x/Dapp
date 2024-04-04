@@ -42,7 +42,7 @@ export class MemberListsComponent extends Destroyable(Object) implements OnInit 
   loadMembers(): void {
     if (this.userParams) {
       this.userService.setUserParams(this.userParams);
-      this.userService
+      this.userService 
         .getMembers(this.userParams)
         .pipe(this.takeUntilDestroyed())
         .subscribe((response) => {

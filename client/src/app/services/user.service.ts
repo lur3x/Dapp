@@ -91,6 +91,22 @@ export class UserService extends Destroyable(Object) {
     return this.http.delete(`${this.url}/users/delete-photo/${photoId}`);
   }
 
+  addLike(username: string): Observable<null> {
+    return this.http.post<null>(`${this.url}/likes/${username}`, {});
+  }
+
+  getLikes(
+    predicate: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<PaginatedResults<Member[]>> {
+    let params = this.getPaginationHeaders(pageNumber, pageSize);
+
+    params = params.append('predicate', predicate);
+
+    return this.getPaginatedResults<Member[]>(`${this.url}/likes/`, params);
+  }
+
   private getPaginatedResults<T>(url: string, params: HttpParams): Observable<PaginatedResults<T>> {
     const paginatedResult: PaginatedResults<T> = new PaginatedResults<T>();
 
